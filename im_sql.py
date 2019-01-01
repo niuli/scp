@@ -25,9 +25,9 @@ def make_c(row):
 
 def dump(row):
     c = make_c(row)
-    brand = c[0]
-    sex = c[1]
-    group_name = c[2]
+    brand = c[0].lower()
+    sex = c[1].lower()
+    group_name = c[2].lower()
     intra_mirror_id = c[3]
     price = int(c[4])
     size = c[5]

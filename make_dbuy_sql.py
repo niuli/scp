@@ -38,7 +38,7 @@ def dump(row):
     c[6] = c[6][1:]
 
     name = c[0]
-    brand = c[1]
+    brand = c[1].lower()
     size = c[2]
     store = c[3]
     price = int(c[4])
