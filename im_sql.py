@@ -19,49 +19,36 @@ def make_c(row):
     n = 0
     for r in row:
         n += 1
-        if n == 6:
-            continue
-        if n == 7:
-            continue
-        if n == 8:
-            continue
-        if n == 9:
-            continue
         c.append(r)
+        print r
     return c
 
 def dump(row):
     c = make_c(row)
-    c[4] = c[4][1:]
-    c[5] = c[5][1:]
-    c[6] = c[6][1:]
-
     brand = c[0]
     sex = c[1]
     group_name = c[2]
     intra_mirror_id = c[3]
     price = int(c[4])
-    t_price = int(0)
-    china_yuan = int(0)
+    size = c[5]
+    store = c[6]
+    china_yuan = 0
     description = ""
-    p_pic = c[8]
-    g_pic = c[9]
-
-    prdc, seq, mt, dim = get_info(description)
-    sex = get_sex(name)
-    third_party_seq, group_name, intra_mirror_id = seq, "", ""
-    #print prdc, seq, mt, dim
+    p_pic = c[7]
+    g_pic = c[8]
+    prdc, materia, dimension = "","",""
 
     m = """ insert INTO `ImGood` \
     (name, brand, prdc, sex, materia, dimension, \
-    third_party_seq, group_name, intra_mirror_id, size, number, \
+    group_name, intra_mirror_id, size, store, \
     price, t_price, china_yuan, description, p_pic, g_pic) \
     values ("%s", "%s", "%s", "%s", "%s", "%s", \
-    "%s", "%s", "%s", "%s", "%s", \
+    "%s", "%s", "%s", "%s", \
     %d, %d, %d, "%s", "%s", \
     "%s") """ %(name, brand, prdc, sex, mt, dim, \
     third_party_seq, group_name, intra_mirror_id, size, number, \
     price, t_price, china_yuan, description, p_pic, g_pic)
+    print m
 
     try:
         rows = dbw.query(m)
@@ -74,58 +61,8 @@ def dump(row):
         print 'traceback.format_exc():\n%s' % traceback.format_exc()
 
 
-def get_info(desc):
-    desc = desc.replace("[", "").replace("]", "").replace(" ", "")
-    rs = desc.split(',')
-    c = 0
-    d = dict()
-    l1, l2 = [], []
-    for r in rs:
-        if c%2 == 0:    
-            l1.append(r)
-        if c%2 == 1:
-            l2.append(r)
-        c += 1
-
-    prdc, seq, mt, dim = "", "", "", ""
-    for i in range(0, len(l1)):
-        k = l1[i]
-        v = l2[i]
-        if k == "产地":
-            prdc = v
-        if k == "编号":
-            seq = v
-        if k == "材质":
-            mt = v
-        if k == "尺寸":
-            dim = v
-    return prdc, seq, mt, dim
-
-def get_sex(name):
-    sex = "unknow"
-    if (name.find("女士") != -1):
-        sex = "woman"
-    elif (name.find("男士") != -1):
-        sex = "man"
-    return sex
-
-def get_data_from_db(self,limit_num, number):
-
-    cmd = """INSERT INTO `DBuy` \
-        (name, brand, size, number, \
-        price, t_price, china_yuan, 
-        description, p_pic, g_pic) \
-        FROM Source WHERE host ='0'
-        AND complete = '1'
-        AND sign is not NULL
-        AND format is NULL
-        ORDER by id ASC LIMIT %d, %d""" %(limit_num, number)
-
-    rows = dbw.query(cmd)
-    return rows
-
-
 def process(path_name):
+    print "aaa"
     data = xlrd.open_workbook(path_name)
     table = data.sheets()[0]
 
@@ -145,6 +82,6 @@ def process(path_name):
             continue
 
 if  __name__ == "__main__":
-    path_name = 'data/dbuy/BALLY.xlsx'
+    path_name = 'data/im/bally.xlsx'
     process(path_name)
 
