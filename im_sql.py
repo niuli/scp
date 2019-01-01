@@ -34,11 +34,13 @@ def dump(row):
 
     p_pic = c[7]
     g_pic = c[8]
+    p_pic = p_pic.replace('"', '')
+    g_pic = g_pic.replace('"', '')
 
-    prdc, materia = "unknown","unknown"
-    name, dimension = "unknown", "unknown"
+    prdc, materia = "",""
+    name, dimension = "", ""
     china_yuan, t_price = 0, 0
-    description = "unknown"
+    description = ""
     #print brand, group_name, intra_mirror_id
     #print price, size, store, sex
     #print p_pic, g_pic
