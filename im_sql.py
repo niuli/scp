@@ -55,7 +55,7 @@ def dump(row):
     "%s") """ %(name, brand, prdc, sex, materia, dimension, \
     group_name, intra_mirror_id, size, store, \
     price, t_price, china_yuan, description, p_pic, g_pic)
-    print m
+    #print m
 
     try:
         rows = dbw.query(m)
