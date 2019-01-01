@@ -1,0 +1,15 @@
+1. mysqlclient
+sudo pip install mysqlclient
+
+2. web.py
+wget http://webpy.org/static/web.py-0.37.tar.gz
+tar -xzvf web.py-0.37.tar.gz
+cd web.py-0.37
+python setup.py install
+
+
+3.database connection pool
+sudo wget https://pypi.python.org/packages/source/D/DBUtils/DBUtils-1.1.tar.gz --no-check-certificate
+tar zvxf DBUtils-1.1.tar.gz
+cd DBUtils-1.1 && sudo python setup.py install
+
