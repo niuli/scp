@@ -48,10 +48,10 @@ def dump(row):
     p_pic = c[8]
     g_pic = c[9]
 
-    prdc, seq, mt, dim = get_info(description)
+    prdc, seq, materia, dimension = get_info(description)
     sex = get_sex(name)
-    third_party_seq, group_name, intra_mirror_id = seq, "", ""
-    #print prdc, seq, mt, dim
+    third_party_seq, group_name, intra_mirror_id = seq, name.replace("男士", "").replace("女士", ""), ""
+    #print prdc, seq, materia, dimension
 
     m = """ insert INTO `DBuy` \
     (name, brand, prdc, sex, materia, dimension, \
@@ -60,7 +60,7 @@ def dump(row):
     values ("%s", "%s", "%s", "%s", "%s", "%s", \
     "%s", "%s", "%s", "%s", "%s", \
     %d, %d, %d, "%s", "%s", \
-    "%s") """ %(name, brand, prdc, sex, mt, dim, \
+    "%s") """ %(name, brand, prdc, sex, materia, dimension, \
     third_party_seq, group_name, intra_mirror_id, size, store, \
     price, t_price, china_yuan, description, p_pic, g_pic)
 
