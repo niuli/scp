@@ -4,6 +4,7 @@ import web
 import sys
 reload(sys)
 sys.setdefaultencoding('utf8')
+web.config.debug_sql = False
 
 
 dbw = web.database(dbn='mysql',
@@ -72,6 +73,7 @@ def dump(row):
         print 'e.message:\t', e.message
         print 'traceback.print_exc():'; traceback.print_exc()
         print 'traceback.format_exc():\n%s' % traceback.format_exc()
+        print m
 
 
 def get_info(desc):

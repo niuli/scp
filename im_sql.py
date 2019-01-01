@@ -4,6 +4,7 @@ import web
 import sys
 reload(sys)
 sys.setdefaultencoding('utf8')
+web.config.debug_sql = False
 
 
 dbw = web.database(dbn='mysql',
