@@ -62,7 +62,7 @@ class DbuyMerger(object):
 
     def find_best_score(self, rs, price2):
     	ret = 0
-    	min_p = 1000
+        min_p = 1000
     	for r in rs:
     		price = r['price']
     		gid = r['id']
