@@ -106,9 +106,9 @@ def get_info(desc):
 def get_sex(name):
     sex = "unknow"
     if (name.find("女士") != -1):
-        sex = "woman"
+        sex = "women"
     elif (name.find("男士") != -1):
-        sex = "man"
+        sex = "men"
     return sex
 
 
