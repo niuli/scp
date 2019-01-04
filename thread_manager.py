@@ -7,6 +7,8 @@
 
 # Import my module
 from work_thread import WorkThread
+from hs_logger import *
+
 
 class ThreadManager(object):
     def __init__(self):
@@ -43,7 +45,7 @@ class ThreadManager(object):
 
     def do_work(self, msg):
         self.__m_sequence_num += 1
-        #hslogger.get().info("do_work %d" %(self.__m_sequence_num))
+        hslogger.get().info("do_work %d" %(self.__m_sequence_num))
         work_thread_id = (self.__m_sequence_num % self.__m_total_thread_num) + 1
         self.__m_work_threads[work_thread_id].send(msg)
 

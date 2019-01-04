@@ -73,7 +73,7 @@ def dump(row):
         print 'e.message:\t', e.message
         print 'traceback.print_exc():'; traceback.print_exc()
         print 'traceback.format_exc():\n%s' % traceback.format_exc()
-        print m
+        #print m
 
 
 def get_info(desc):

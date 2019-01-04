@@ -4,11 +4,13 @@ import web
 import sys
 import utils
 from thread_manager import *
+import time
 
 reload(sys)
 sys.setdefaultencoding('utf8')
 web.config.debug_sql = False
 
+from hs_logger import *
 
 dbw = web.database(dbn='mysql',
     host='127.0.0.1',
@@ -33,7 +35,7 @@ class Dispatcher(object):
         thread_manager.round_start(self.__work_thread_number)
         self.__thread_manager = thread_manager
 
-        #time.sleep(0.5)
+        time.sleep(0.5)
         #self.do_check()
 
     def make_sql(self, row):
@@ -69,7 +71,7 @@ class Dispatcher(object):
         "%s") """ %(name, brand, prdc, sex, materia, dimension, \
         group_name, intra_mirror_id, size, store, \
         price, t_price, china_yuan, description, p_pic, g_pic)
-        self.do_sql(cmd)
+        #self.do_sql(cmd)
         return cmd
 
 
@@ -103,12 +105,19 @@ class Dispatcher(object):
                 msg = self.make_sql(c)
                 self.__thread_manager.do_work(msg)
 
-            except:
+            except Exception, e:
+                print e
                 continue
 
 if  __name__ == "__main__":
-    path_name = 'data/im/Prada.xlsx'
-    #path_name = 'data/im/bally.xlsx'
+    import logging
+    hslogger.log_leval = logging.INFO
+    hslogger.log_name = "make_sql.log"
+    hslogger.log_file = "../log/make_sql.log"
+    hslogger.start()
+    #path_name = 'data/im/Prada.xlsx'
+    path_name = 'data/im/bally.xlsx'
+    hslogger.get().info("iMDispatcher. ") 
 
     iMDispatcher = Dispatcher()
     iMDispatcher.do_run()

@@ -9,6 +9,10 @@ import time
 import threading
 import datetime
 from Queue import *
+reload(sys)
+sys.setdefaultencoding('utf8')
+web.config.debug_sql = False
+
 try:
     import simplejson as json
 except ImportError:
@@ -16,7 +20,7 @@ except ImportError:
 
 # Import vdc module
 #sys.path.append("../vdclib")
-#from hs_logger import *
+from hs_logger import *
 web.config.debug_sql = False
 
 
@@ -59,7 +63,7 @@ class WorkThread(threading.Thread):
                     break
 
                 msg = item
-                #hslogger.get().info("r1[%s], r2[%s], r3[%s], r4[%s]" %(r1, r2, r3, r4))
+                hslogger.get().info("msg [%s]" %(msg))
 
                 ret = self.do_work(msg)
                 self.input_queue.task_done()
