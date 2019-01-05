@@ -132,6 +132,7 @@ def process(path_name):
             continue
 
 if  __name__ == "__main__":
-    path_name = 'data/dbuy/BALLY.xlsx'
+    #path_name = 'data/dbuy/BALLY.xlsx'
+    path_name = 'data/dbuy/PRADA.xlsx'
     process(path_name)
 

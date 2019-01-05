@@ -16,7 +16,7 @@ dbw = web.database(dbn='mysql',
     passwd='',
     db='shechipin')
 
-mdict = {"手拿包":"clutch-bags"}
+#mdict = {"手拿包":"clutch-bags"}
 
 def sleep_ex(n):
     assert isinstance(n, (int, basestring)), repr(n)
@@ -29,7 +29,7 @@ class DbuyMerger(object):
     def __init__(self):
         self.__dispatch_interval  = '1s'
         self.__sql_cursor         = 0
-        self.__sql_jump           = 500
+        self.__sql_jump           = 100
         self.__sql_handle         = 0
         self.__old_count          = 0
         self.__count              = 0
@@ -51,28 +51,64 @@ class DbuyMerger(object):
             price = r['price']
             p_pic = r['p_pic']
             group_name = r['group_name']
-            if (group_name.find("手拿包") != -1):
-                group_name = group_name.replace("手拿包", "clutch-bags")
-                rs = self.get_im(name, brand, sex, price, p_pic, group_name)
-                ret, min_p, p_pic1 = self.find_best_score(rs, price)
-                print ret, min_p, p_pic1, p_pic
-            time.sleep(0.02)
+            #print brand, sex, price, group_name
+            #if (group_name.find("手拿包") != -1):
+            group_name = self.get_group_name(group_name)
+            rs = self.get_im(name, brand, sex, price, p_pic, group_name)
+            if len(rs) == 0:
+                continue
+            gid2, min_p, p_pic1 = self.find_best_score(rs, price)
+            #print 
+            p1, p2 = "", ""
+            if p_pic1.find("http") != -1 and p_pic.find("http") != -1:
+                p1 = p_pic1.split(",")[0].replace("[", "")
+                p2 = p_pic.split(",")[0].replace("[", "")
+            #print ret, min_p, p_pic1, p_pic
+                print min_p, p1, p2, gid, gid2
+
+            time.sleep(0.01)
 
         self.__sql_cursor += limit
 
-    def find_best_score(self, rs, price2):
-    	ret = 0
-        min_p = 1000
-    	for r in rs:
-    		price = r['price']
-    		gid = r['id']
-    		p_pic = r['p_pic']
+    # 这里可以优化一下性能，先查找再替换，或者做个前缀索引，KMP之类的
+    def get_group_name(self, group_name):
+        group_name = group_name.replace("手拿包", "clutch-bags")
+        group_name = group_name.replace("及踝靴", "boots/hi-tops")
+        group_name = group_name.replace("手提包", "purses")
+        group_name = group_name.replace("调节帽", "hats")
+        group_name = group_name.replace("长款钱夹", "wallets")
+        group_name = group_name.replace("腰带", "blets")
+        group_name = group_name.replace("高跟鞋", "highheels")
+        group_name = group_name.replace("商务休闲鞋", "business casual shoes")
+        group_name = group_name.replace("拖鞋", "sandals/flip flops")
+        group_name = group_name.replace("围巾", "scarves")
+        group_name = group_name.replace("斜挎包", "shoulder/crossbody bags")
+        group_name = group_name.replace("休闲运动鞋", "business casual shoes")
+        group_name = group_name.replace("普拉达", "")
+        group_name = group_name.replace(" ","")
+        return group_name
+        #print group_name
 
-    		tmp = abs (price2 - price)
-    		if tmp < min_p:
-    			min_p = tmp
-    			ret = gid
-        return ret, min_p, p_pic
+
+    def find_best_score(self, rs, price2):
+        ret = 0
+        min_p = 1000
+        pic =""
+        gid = ""
+        if len(rs) == 0:
+            print "empty line"
+            return ret, min_p, p_pic
+        for r in rs:
+            price = r['price']
+
+            #print "min_p", min_p
+            tmp = abs (price2 - price)
+            if tmp < min_p:
+                min_p = tmp
+                gid = r['id']
+                p_pic = r['p_pic']
+                print price2, price, min_p
+        return gid, min_p, p_pic
 
 
 
@@ -83,6 +119,8 @@ class DbuyMerger(object):
             and sex = "%s" and
             group_name = "%s" ''' %(brand, sex, group_name)
         rs = dbw.query(cmd)
+        #print cmd
+        #print len(rs)
         return rs
 
 

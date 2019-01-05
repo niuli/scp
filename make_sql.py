@@ -115,8 +115,8 @@ if  __name__ == "__main__":
     hslogger.log_name = "make_sql.log"
     hslogger.log_file = "../log/make_sql.log"
     hslogger.start()
-    #path_name = 'data/im/Prada.xlsx'
-    path_name = 'data/im/bally.xlsx'
+    path_name = 'data/im/Prada.xlsx'
+    #path_name = 'data/im/bally.xlsx'
     hslogger.get().info("iMDispatcher. ") 
 
     iMDispatcher = Dispatcher()
