@@ -95,6 +95,7 @@ class DbuyMerger(object):
         min_p = 1000
         pic =""
         gid = ""
+        p_pic = ""
         if len(rs) == 0:
             print "empty line"
             return ret, min_p, p_pic
