@@ -64,7 +64,9 @@ class DbuyMerger(object):
                 p1 = p_pic1.split(",")[0].replace("[", "")
                 p2 = p_pic.split(",")[0].replace("[", "")
             #print ret, min_p, p_pic1, p_pic
-                print min_p, p1, p2, gid, gid2
+                #print group_name, min_p, p1, p2, gid, gid2
+                print group_name, min_p, p_pic1, p_pic, gid, gid2
+
 
             time.sleep(0.01)
 
@@ -108,7 +110,7 @@ class DbuyMerger(object):
                 min_p = tmp
                 gid = r['id']
                 p_pic = r['p_pic']
-                print price2, price, min_p
+                #print price2, price, min_p
         return gid, min_p, p_pic
 
 
@@ -129,7 +131,7 @@ class DbuyMerger(object):
         cmd = "SELECT id, name, brand, sex, price, p_pic, group_name \
             FROM DBuy \
             ORDER BY id \
-            ASC LIMIT %d, %d" %(limit_num, number)
+            DESC LIMIT %d, %d" %(limit_num, number)
         rows = dbw.query(cmd)
         return rows
 
