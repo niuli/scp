@@ -1,6 +1,11 @@
 1. mysqlclient
 sudo pip install mysqlclient
 
+# For centos
+yum install MySQL-python
+yum install mysql-devel python-pip
+easy_install -U distribute
+
 2. web.py
 wget http://webpy.org/static/web.py-0.37.tar.gz
 tar -xzvf web.py-0.37.tar.gz
