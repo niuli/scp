@@ -17,7 +17,7 @@ CREATE TABLE `DBuy` ( `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
 `description` varchar(256) DEFAULT NULL, 
 `p_pic` text, 
 `g_pic` text, 
-PRIMARY KEY (`id`) ) DEFAULT CHARSET=utf8;
+PRIMARY KEY (`id`), INDEX(`brand`), INDEX(`group_name`)) DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE `ImGood` ( `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT, 
@@ -37,4 +37,4 @@ CREATE TABLE `ImGood` ( `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
 `description` varchar(256) DEFAULT NULL, 
 `p_pic` text, 
 `g_pic` text, 
-PRIMARY KEY (`id`) ) DEFAULT CHARSET=utf8;
+PRIMARY KEY (`id`), INDEX(`brand`), INDEX(`group_name`) ) DEFAULT CHARSET=utf8;
