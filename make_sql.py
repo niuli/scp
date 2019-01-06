@@ -115,13 +115,12 @@ class Dispatcher(object):
                 continue
 
 
-def do_all_path():
-    init_log()
+def do_all_path(path_name, log_name):
+    init_log(log_name)
     import os
-    path='./data/im'
     iMDispatcher = Dispatcher()
 
-    for dirpath,dirnames,filenames in os.walk(path):
+    for dirpath,dirnames,filenames in os.walk(path_name):
         for file in filenames:
             fullpath = os.path.join(dirpath,file)
             print fullpath
@@ -139,13 +138,18 @@ def do_one_file():
     iMDispatcher.process(path_name, True)
 
 
-def init_log():
+def init_log(log_name = "make_sql.log"):
     import logging
     hslogger.log_leval = logging.INFO
-    hslogger.log_name = "make_sql.log"
-    hslogger.log_file = "../log/make_sql.log"
+    hslogger.log_name = log_name
+    hslogger.log_file = "../log/" + log_name
     hslogger.start()
 
 if  __name__ == "__main__":
-    do_all_path()
+    path = './data/im/im1'
+    log_name = 'im1'
+    do_all_path(path, log_name)
+
+    #path='./data/im'
+    #do_all_path(path)
 
