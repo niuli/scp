@@ -31,6 +31,10 @@ def make_c(row):
         c.append(r)
     return c
 
+def get_price(self, number):
+    price = float(number) * 100
+    return int(price)
+
 def dump(row):
     c = make_c(row)
     c[4] = c[4][1:]
@@ -41,7 +45,7 @@ def dump(row):
     brand = c[1].lower()
     size = c[2]
     store = c[3]
-    price = int(c[4])
+    price = get_price(c[4])
     t_price = int(c[5])
     china_yuan = int(c[6])
     description = c[7]

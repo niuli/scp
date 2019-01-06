@@ -37,6 +37,9 @@ class Dispatcher(object):
 
         time.sleep(0.5)
         #self.do_check()
+    def get_price(self, number):
+        price = float(number) * 100
+        return int(price)
 
     def make_sql(self, row):
         c = utils.make_column(row)
@@ -44,7 +47,7 @@ class Dispatcher(object):
         sex = c[1].lower()
         group_name = c[2].lower()
         intra_mirror_id = c[3]
-        price = int(c[4])
+        price = self.get_price(c[4])
         size = c[5]
         store = str(c[6])
 
@@ -87,7 +90,7 @@ class Dispatcher(object):
             print 'traceback.format_exc():\n%s' % traceback.format_exc()
 
 
-    def process(self, path_name):
+    def process(self, path_name, is_thread):
         data = xlrd.open_workbook(path_name)
         table = data.sheets()[0]
 
@@ -103,24 +106,46 @@ class Dispatcher(object):
                 c.append(content)
             try:
                 msg = self.make_sql(c)
-                self.__thread_manager.do_work(msg)
-
+                if (is_thread == True):
+                    self.__thread_manager.do_work(msg)
+                else:
+                    self.do_sql(msg)
             except Exception, e:
                 print e
                 continue
 
-if  __name__ == "__main__":
+
+def do_all_path():
+    init_log()
+    import os
+    path='./data/im'
+    iMDispatcher = Dispatcher()
+
+    for dirpath,dirnames,filenames in os.walk(path):
+        for file in filenames:
+            fullpath = os.path.join(dirpath,file)
+            print fullpath
+            iMDispatcher.process(fullpath, False)
+
+
+def do_one_file():
+    init_log()
+    path_name = 'data/im/Prada.xlsx'
+    #path_name = 'data/im/bally.xlsx'
+    hslogger.get().info("iMDispatcher one file" ) 
+
+    iMDispatcher = Dispatcher()
+    iMDispatcher.do_run()
+    iMDispatcher.process(path_name, True)
+
+
+def init_log():
     import logging
     hslogger.log_leval = logging.INFO
     hslogger.log_name = "make_sql.log"
     hslogger.log_file = "../log/make_sql.log"
     hslogger.start()
-    path_name = 'data/im/Prada.xlsx'
-    #path_name = 'data/im/bally.xlsx'
-    hslogger.get().info("iMDispatcher. ") 
 
-    iMDispatcher = Dispatcher()
-    iMDispatcher.do_run()
-    iMDispatcher.process(path_name)
-
+if  __name__ == "__main__":
+    do_all_path()
 
