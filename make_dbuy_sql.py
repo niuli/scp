@@ -131,10 +131,21 @@ def process(path_name):
         except:
             continue
 
+def do_all():
+
+    import os
+    path='./data/dbuy'
+    for dirpath,dirnames,filenames in os.walk(path):
+        for file in filenames:
+            fullpath=os.path.join(dirpath,file)
+            print fullpath
+            process(fullpath)
+
+
 if  __name__ == "__main__":
     #path_name = 'data/dbuy/BALLY.xlsx'
     path_name = 'data/dbuy/PRADA.xlsx'
-    #path_name = 'data/dbuy/dbuyall.xlsx'
+    do_all()
 
-    process(path_name)
+    #process(path_name)
 

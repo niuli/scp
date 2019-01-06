@@ -114,7 +114,6 @@ class DbuyMerger(object):
         return gid, min_p, p_pic
 
 
-
     def get_im(self, name, brand, sex, price, p_pic, group_name):
         cmd = '''SELECT id, name, brand, sex, price, p_pic 
             FROM ImGood 
