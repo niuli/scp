@@ -52,7 +52,8 @@ def get_name():
             print a
 
 if __name__ == "__main__":
-    cmd = "select distinct group_name from imgood"
+    #cmd = "select distinct group_name from imgood"
+    cmd = "select distinct group_name from Dbuy"
     rs = dbw.query(cmd)
     for r in rs:
         print r["group_name"]

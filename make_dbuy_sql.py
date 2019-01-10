@@ -31,7 +31,7 @@ def make_c(row):
         c.append(r)
     return c
 
-def get_price(self, number):
+def get_price(number):
     price = float(number) * 100
     return int(price)
 
