@@ -39,6 +39,7 @@ class DbuyMerger(object):
         start, limit = self.__sql_cursor, self.__sql_jump
         print(""" scan progress: %d, %d """ %(start, limit))
         rows = self.get_rows(start, limit)
+        print len(rows)
         self.__sql_handle = 0
 
         for r in rows:
@@ -115,28 +116,28 @@ class DbuyMerger(object):
 
 
     def get_im(self, name, brand, sex, price, p_pic, group_name):
+        group_name = "boots/hi-tops"
         cmd = '''SELECT id, name, brand, sex, price, p_pic 
             FROM ImGood 
             where brand = "%s" 
             and sex = "%s" and
             group_name = "%s" ''' %(brand, sex, group_name)
         rs = dbw.query(cmd)
-        #print cmd
-        #print len(rs)
         return rs
 
 
     def get_rows(self, limit_num, number):
-        cmd = "SELECT id, name, brand, sex, price, p_pic, group_name \
+        cmd = '''SELECT id, name, brand, sex, price, p_pic, group_name \
             FROM DBuy \
+            WHERE brand = "prada"
             ORDER BY id \
-            DESC LIMIT %d, %d" %(limit_num, number)
+            DESC LIMIT %d, %d''' %(limit_num, number)
         rows = dbw.query(cmd)
         return rows
 
     def do_merge(self):
         while True:
-            sleep_ex(self.__dispatch_interval)
+            #sleep_ex(self.__dispatch_interval)
             self.dispatch()
             print(""" sql handle : %d, __old_count :%d, count: %d """ %(self.__sql_handle, self.__count, self.__count))
 
