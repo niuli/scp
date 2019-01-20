@@ -8,13 +8,10 @@ web.config.debug_sql = False
 import time
 import re
 
+from sql_config import *
 
-dbw = web.database(dbn='mysql',
-    host='127.0.0.1',
-    port=3306,
-    user='root',
-    passwd='',
-    db='shechipin')
+
+dbw = dev_dbw
 
 #mdict = {"手拿包":"clutch-bags"}
 

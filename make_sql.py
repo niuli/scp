@@ -5,19 +5,16 @@ import sys
 import utils
 from thread_manager import *
 import time
+import traceback
 
 reload(sys)
 sys.setdefaultencoding('utf8')
 web.config.debug_sql = False
 
 from hs_logger import *
+from sql_config import *
 
-dbw = web.database(dbn='mysql',
-    host='127.0.0.1',
-    port=3306,
-    user='root',
-    passwd='',
-    db='shechipin')
+dbw = dev_dbw
 
 
 class Dispatcher(object):
@@ -37,14 +34,30 @@ class Dispatcher(object):
 
         time.sleep(0.5)
         #self.do_check()
+
     def get_price(self, number):
-        price = float(number) * 100
-        return int(price)
+        try:
+        #print number
+            price = float(number) * 100
+            return int(price)
+        except Exception, e:
+            #print number
+            return 0
+
+
+    def make_sql_without_bad_param(self, row):
+        try:
+            cmd = self.make_sql(row)
+            return cmd
+        except Exception, e:
+            raise Exception(e) 
+
 
     def make_sql(self, row):
         c = utils.make_column(row)
         brand = c[0].lower()
         sex = c[1].lower()
+        print sex
         group_name = c[2].lower()
         intra_mirror_id = c[3]
         price = self.get_price(c[4])
@@ -64,7 +77,7 @@ class Dispatcher(object):
         #print price, size, store, sex
         #print p_pic, g_pic
 
-        cmd = """ insert INTO `ImGood` \
+        cmd = """ insert INTO `ImGood2` \
         (name, brand, prdc, sex, materia, dimension, \
         group_name, intra_mirror_id, size, store, \
         price, t_price, china_yuan, description, p_pic, g_pic) \
@@ -82,6 +95,7 @@ class Dispatcher(object):
         try:
             rows = dbw.query(cmd)
         except Exception, e:
+            print cmd
             print 'str(Exception):\t', str(Exception)
             print 'str(e):\t\t', str(e)
             print 'repr(e):\t', repr(e)
@@ -94,10 +108,12 @@ class Dispatcher(object):
         data = xlrd.open_workbook(path_name)
         table = data.sheets()[0]
 
-        nrows=table.nrows
-        ncols=table.ncols
+        nrows = table.nrows
+        ncols = table.ncols
 
         for i in range(nrows):
+            if i == 0:
+                continue
             c = []
             for j in range(ncols):
                 row_content = table.col(j)[i].value #先行后列
@@ -105,7 +121,7 @@ class Dispatcher(object):
                 content = table.cell(i,j).value
                 c.append(content)
             try:
-                msg = self.make_sql(c)
+                msg = self.make_sql_without_bad_param(c)
                 if (is_thread == True):
                     self.__thread_manager.do_work(msg)
                 else:

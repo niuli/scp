@@ -8,12 +8,9 @@ reload(sys)
 sys.setdefaultencoding('utf8')
 web.config.debug_sql = False
 
-dbw = web.database(dbn='mysql',
-    host='127.0.0.1',
-    port=3306,
-    user='root',
-    passwd='',
-    db='shechipin')
+from sql_config import *
+
+dbw = dew_dbw 
 
 bags = ["购物包","邮差包","手提包","单肩包", "双肩包", "手拿包", "零钱包","斜挎包", "卡包","钥匙包", "单肩背包", "链条手包", 
         "水桶包","相机包","手机包", "迷你背包","拉链钱包","小号肩背包","迷你背包","两用包", "长款钱包",
