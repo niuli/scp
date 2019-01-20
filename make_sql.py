@@ -37,11 +37,9 @@ class Dispatcher(object):
 
     def get_price(self, number):
         try:
-        #print number
             price = float(number) * 100
             return int(price)
         except Exception, e:
-            #print number
             return 0
 
 
@@ -57,7 +55,6 @@ class Dispatcher(object):
         c = utils.make_column(row)
         brand = c[0].lower()
         sex = c[1].lower()
-        print sex
         group_name = c[2].lower()
         intra_mirror_id = c[3]
         price = self.get_price(c[4])
@@ -77,7 +74,7 @@ class Dispatcher(object):
         #print price, size, store, sex
         #print p_pic, g_pic
 
-        cmd = """ insert INTO `ImGood2` \
+        cmd = """ insert INTO `ImGood4` \
         (name, brand, prdc, sex, materia, dimension, \
         group_name, intra_mirror_id, size, store, \
         price, t_price, china_yuan, description, p_pic, g_pic) \
@@ -87,7 +84,6 @@ class Dispatcher(object):
         "%s") """ %(name, brand, prdc, sex, materia, dimension, \
         group_name, intra_mirror_id, size, store, \
         price, t_price, china_yuan, description, p_pic, g_pic)
-        #self.do_sql(cmd)
         return cmd
 
 
