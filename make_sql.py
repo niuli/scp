@@ -74,7 +74,7 @@ class Dispatcher(object):
         #print price, size, store, sex
         #print p_pic, g_pic
 
-        cmd = """ insert INTO `ImGood4` \
+        cmd = """ insert INTO `ImGood1` \
         (name, brand, prdc, sex, materia, dimension, \
         group_name, intra_mirror_id, size, store, \
         price, t_price, china_yuan, description, p_pic, g_pic) \
